@@ -36,7 +36,7 @@ namespace Finance_Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses()
         {
-            _logger.LogInformation("Received a Get Request");
+            _logger.LogInformation("Get Action Initiated");
             return await _context.Expenses.ToListAsync();
         }
 
@@ -50,7 +50,7 @@ namespace Finance_Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Expense>> GetExpense(int id)
         {
-            _logger.LogInformation("Received a Get Request");
+            _logger.LogInformation("Get by Id Action Initiated");
 
             var expense = await _context.Expenses.FindAsync(id);
 
@@ -74,7 +74,7 @@ namespace Finance_Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutExpense(int id, ExpenseDTO expenseDTO)
         {
-            _logger.LogInformation("Received Put Request");
+            _logger.LogInformation("Put Action Initiated");
 
             Expense expense = new Expense()
             {
@@ -124,6 +124,8 @@ namespace Finance_Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Expense>> PostExpense(ExpenseDTO expenseDTO)
         {
+            _logger.LogInformation("New Record Added into Database");
+
             Expense expense = new Expense()
             {
                 UserId = expenseDTO.UserId,
@@ -149,6 +151,8 @@ namespace Finance_Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExpense(int id)
         {
+            _logger.LogInformation("Data Deleted Successfully from Database");
+
             var expense = await _context.Expenses.FindAsync(id);
             if (expense == null)
             {

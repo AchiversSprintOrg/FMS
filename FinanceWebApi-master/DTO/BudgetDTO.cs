@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FinanceWebApi.DTO
+namespace Finance_Api.DTO
 {
     public class BudgetDTO
     {

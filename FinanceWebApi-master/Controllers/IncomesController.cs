@@ -7,75 +7,77 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Finance_Api.Models;
 using Finance_Api.DTO;
+using Elfie.Serialization;
 
 namespace Finance_Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BudgetsController : ControllerBase
+    public class IncomesController : ControllerBase
     {
         private readonly FinanceDbContext _context;
         private readonly ILogger<ExpensesController> _logger;
-        public BudgetsController(FinanceDbContext context, ILogger<ExpensesController> logger)
+
+        public IncomesController(FinanceDbContext context, ILogger<ExpensesController> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        // GET: api/Budgets
+        // GET: api/Incomes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Budget>>> GetBudgets()
+        public async Task<ActionResult<IEnumerable<Income>>> GetIncomes()
         {
             _logger.LogInformation("Initiated a Get Action");
-            return await _context.Budgets.ToListAsync();
+            return await _context.Incomes.ToListAsync();
         }
 
-        // GET: api/Budgets/5
+        // GET: api/Incomes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Budget>> GetBudget(int id)
+        public async Task<ActionResult<Income>> GetIncome(int id)
         {
             _logger.LogInformation("Initiated a Get by Id Action");
-            var budget = await _context.Budgets.FindAsync(id);
+            var income = await _context.Incomes.FindAsync(id);
 
-            if (budget == null)
+            if (income == null)
             {
                 return NotFound();
             }
 
-            return budget;
+            return income;
         }
 
-        // PUT: api/Budgets/5
+        // PUT: api/Incomes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBudget(int id, BudgetDTO budgetDTO)
+        public async Task<IActionResult> PutIncome(int id, IncomeDTO incomeDTO)
         {
             _logger.LogInformation("Put Action initiated");
 
-            Budget budget = new Budget()
+            Income income = new Income()
             {
-                BudgetId = budgetDTO.BudgetId,
-                UserId = budgetDTO.UserId,
-                Category = budgetDTO.Category,
-                Amount = budgetDTO.Amount,
-                CreatedDate = budgetDTO.CreatedDate,
-            };
+              IncomeId = incomeDTO.IncomeId,
+              Amount = incomeDTO.Amount,
+              UserId = incomeDTO.UserId,
+              Source = incomeDTO.Source,
+              IncomeDate = incomeDTO.IncomeDate,
+            };  
 
-            if (id != budget.BudgetId)
+            if (id != income.IncomeId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(budget).State = EntityState.Modified;
+            _context.Entry(income).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
-                _logger.LogInformation($"Updated Budget {budget.BudgetId}");
+                _logger.LogInformation($"Updated Income {income.IncomeId}");
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BudgetExists(id))
+                if (!IncomeExists(id))
                 {
                     return NotFound();
                 }
@@ -88,46 +90,48 @@ namespace Finance_Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Budgets
+        // POST: api/Incomes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Budget>> PostBudget(BudgetDTO budgetDTO)
+        public async Task<ActionResult<Income>> PostIncome(IncomeDTO incomeDTO)
         {
             _logger.LogInformation("New Record Added into Database");
-            Budget budget = new Budget()
+
+            Income income = new Income()
             {
-                BudgetId = budgetDTO.BudgetId,
-                UserId = budgetDTO.UserId,
-                Category = budgetDTO.Category,
-                Amount = budgetDTO.Amount,
-                CreatedDate = budgetDTO.CreatedDate,
+                IncomeId = incomeDTO.IncomeId,
+                Amount = incomeDTO.Amount,
+                UserId = incomeDTO.UserId,
+                Source = incomeDTO.Source,
+                IncomeDate = incomeDTO.IncomeDate,
             };
-            _context.Budgets.Add(budget);
+
+            _context.Incomes.Add(income);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBudget", new { id = budget.BudgetId }, budget);
+            return CreatedAtAction("GetIncome", new { id = income.IncomeId }, income);
         }
 
-        // DELETE: api/Budgets/5
+        // DELETE: api/Incomes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBudget(int id)
+        public async Task<IActionResult> DeleteIncome(int id)
         {
             _logger.LogInformation("Data Deleted Successfully from Database");
-            var budget = await _context.Budgets.FindAsync(id);
-            if (budget == null)
+            var income = await _context.Incomes.FindAsync(id);
+            if (income == null)
             {
                 return NotFound();
             }
 
-            _context.Budgets.Remove(budget);
+            _context.Incomes.Remove(income);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool BudgetExists(int id)
+        private bool IncomeExists(int id)
         {
-            return _context.Budgets.Any(e => e.BudgetId == id);
+            return _context.Incomes.Any(e => e.IncomeId == id);
         }
     }
 }
