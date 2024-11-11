@@ -16,26 +16,44 @@ namespace Finance_Api.Controllers
     {
         private readonly FinanceDbContext _context;
         private readonly ILogger<ExpensesController> _logger;
+
+        /// <summary>
+        /// This is a constructor to initlizr the readonly property 
+        /// </summary>
+        /// <param name="context">DBcontext object</param>
+        
         public BudgetsController(FinanceDbContext context, ILogger<ExpensesController> logger)
         {
             _context = context;
             _logger = logger;
         }
 
+        /// <summary>
+        /// This method returns the list of Budgets
+        /// </summary>
+        /// <returns>Budgets </returns>
+
         // GET: api/Budgets
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Budget>>> GetBudgets()
         {
-            _logger.LogInformation("Initiated a Get Action");
+            _logger.LogInformation("Get records of Budget");
             return await _context.Budgets.ToListAsync();
         }
+
+        /// <summary>
+        /// This method returns the Budget based on the ID
+        /// </summary>
+        /// <param name="id">Budget Id</param>
+        /// <returns>Budget based given id</returns>
 
         // GET: api/Budgets/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Budget>> GetBudget(int id)
         {
-            _logger.LogInformation("Initiated a Get by Id Action");
+            
             var budget = await _context.Budgets.FindAsync(id);
+            _logger.LogInformation($"Get details based on Id {id}");
 
             if (budget == null)
             {
@@ -45,12 +63,18 @@ namespace Finance_Api.Controllers
             return budget;
         }
 
+        /// <summary>
+        /// Update the Incomes based on id, Budgets
+        /// </summary>
+        /// <param name="id">BudgetId</param>
+        /// <param name="budget">Budget Object</param>
+        /// <returns>Updated list of Budgets</returns>
+
         // PUT: api/Budgets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBudget(int id, BudgetDTO budgetDTO)
         {
-            _logger.LogInformation("Put Action initiated");
             Budget budget = new Budget()
             {
                 BudgetId = budgetDTO.BudgetId,
@@ -86,6 +110,12 @@ namespace Finance_Api.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Create new Record to the Budget
+        /// </summary>
+        /// <param name="budgetDTO">BudgetDTo</param>
+        /// <returns>Updated Budget Tabel</returns>
 
         // POST: api/Budgets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
