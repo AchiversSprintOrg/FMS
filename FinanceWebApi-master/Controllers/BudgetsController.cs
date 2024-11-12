@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Finance_Api.Models;
 using Finance_Api.DTO;
+using FinanceWebApi.DTO;
 
 
 namespace Finance_Api.Controllers
@@ -66,7 +67,7 @@ namespace Finance_Api.Controllers
         // PUT: api/Budgets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBudget(int id, BudgetDTO budgetDto)
+        public async Task<IActionResult> PutBudget(int id,BudgetDTO budgetDTO)
         {
             _logger.LogInformation("Put Action initiated");
             Budget budget = new Budget()
@@ -75,7 +76,7 @@ namespace Finance_Api.Controllers
                 UserId = budgetDTO.UserId,
                 Category = budgetDTO.Category,
                 Amount = budgetDTO.Amount,
-                CreatedDate = budgetDTO.CreatedDate,
+                CreateDate = budgetDTO.CreateDate
             };
 
             if (id != budget.BudgetId)

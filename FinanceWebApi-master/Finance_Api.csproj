@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\Source\FMS\FMS\FinanceWebApi-master\bin\FMS_DOC\FMS.doc.txt</DocumentationFile>
+    <DocumentationFile>D:\Finance\FinanceWebApi-master\bin\FMS_DOC\FMS.doc.txt</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

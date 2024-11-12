@@ -66,7 +66,7 @@ namespace Finance_Api.Controllers
         /// Update the Expenses based on id, Expenses
         /// </summary>
         /// <param name="id">ExpenseId</param>
-        /// <param name="expense">Expense Object</param>
+        /// <param name="expenseDTO">ExpenseDTO Object</param>
         /// <returns>Updated list of Expenses</returns>
 
 
@@ -84,7 +84,7 @@ namespace Finance_Api.Controllers
                 ExpenseId = expenseDTO.ExpenseId,
                 Category = expenseDTO.Category,
                 ExpenseDate = expenseDTO.ExpenseDate,
-                Amount = expenseDTO.Amount,
+                Amount = expenseDTO.Amount
             };
 
             if (id != expense.ExpenseId)
