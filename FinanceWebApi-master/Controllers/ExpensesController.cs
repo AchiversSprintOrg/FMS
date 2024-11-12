@@ -18,7 +18,7 @@ namespace Finance_Api.Controllers
         private readonly ILogger<ExpensesController> _logger;
 
         /// <summary>
-        /// This is a constructor to initlizr the readonly property 
+        /// This is a constructor to initlize the readonly property 
         /// </summary>
         /// <param name="context">DBcontext object</param>
         /// <param name="logger"></param>
@@ -62,17 +62,18 @@ namespace Finance_Api.Controllers
 
             return expense;
         }
-
         /// <summary>
         /// Update the Expenses based on id, Expenses
         /// </summary>
         /// <param name="id">ExpenseId</param>
         /// <param name="expense">Expense Object</param>
         /// <returns>Updated list of Expenses</returns>
-        
+
+
         // PUT: api/Expenses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+       
         public async Task<IActionResult> PutExpense(int id, ExpenseDTO expenseDTO)
         {
             _logger.LogInformation("Received Put Request");
@@ -125,14 +126,13 @@ namespace Finance_Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Expense>> PostExpense(ExpenseDTO expenseDTO)
         {
-            Expense expense = new Expense()
-            {
-                UserId = expenseDTO.UserId,
-                ExpenseId = expenseDTO.ExpenseId,
-                Category = expenseDTO.Category,
-                ExpenseDate = expenseDTO.ExpenseDate,
-                Amount = expenseDTO.Amount,
-            };
+            Expense expense = new Expense();
+            expense.UserId = expenseDTO.UserId;
+            expense.ExpenseId = expenseDTO.ExpenseId;
+            expense.Category = expenseDTO.Category;
+            expense.ExpenseDate = expenseDTO.ExpenseDate;
+            expense.Amount = expenseDTO.Amount;
+           
 
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
