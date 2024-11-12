@@ -16,12 +16,20 @@ namespace Finance_Api.Controllers
     {
         private readonly FinanceDbContext _context;
         private readonly ILogger<ExpensesController> _logger;
+        /// <summary>
+        /// This is a constructor to initialize the readonly property
+        /// </summary>
+        /// <param name="context">D</param>
+        /// <param name="logger"></param>
         public BudgetsController(FinanceDbContext context, ILogger<ExpensesController> logger)
         {
             _context = context;
             _logger = logger;
         }
-
+        /// <summary>
+        /// This method returns the list of Budget
+        /// </summary>
+        /// <returns>Budgets </returns>
         // GET: api/Budgets
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Budget>>> GetBudgets()
@@ -29,7 +37,11 @@ namespace Finance_Api.Controllers
             _logger.LogInformation("Initiated a Get Action");
             return await _context.Budgets.ToListAsync();
         }
-
+        /// <summary>
+        /// This method returns the Budgets based on the ID
+        /// </summary>
+        /// <param name="id">Budget Id</param>
+        /// <returns>Budget based given id</returns>
         // GET: api/Budgets/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Budget>> GetBudget(int id)
@@ -44,21 +56,24 @@ namespace Finance_Api.Controllers
 
             return budget;
         }
-
+        /// <summary>
+        /// Update the Budget based on id, Expenses
+        /// </summary>
+        /// <param name="id">BudgetId</param>
+        /// <param name="budgetDTO">BudgetDTO Object</param>
+        /// <returns>Updated list of Budgets</returns>
         // PUT: api/Budgets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBudget(int id, BudgetDTO budgetDTO)
         {
-            _logger.LogInformation("Put Action initiated");
-            Budget budget = new Budget()
-            {
-                BudgetId = budgetDTO.BudgetId,
-                UserId = budgetDTO.UserId,
-                Category = budgetDTO.Category,
-                Amount = budgetDTO.Amount,
-                CreatedDate = budgetDTO.CreatedDate,
-            };
+            _logger.LogInformation("Put Action Initiated");
+            Budget budget = new Budget();
+            budget.BudgetId = budgetDTO.BudgetId;
+            budget.UserId = budgetDTO.UserId;
+            budget.Category = budgetDTO.Category;
+            budget.CreatedDate = budgetDTO.CreatedDate;
+            budget.Amount = budgetDTO.Amount;
 
             if (id != budget.BudgetId)
             {
@@ -86,7 +101,11 @@ namespace Finance_Api.Controllers
 
             return NoContent();
         }
-
+        /// <summary>
+        /// Create new Record to the Budget
+        /// </summary>
+        /// <param name="budgetDTO">BudgetDTo</param>
+        /// <returns>Updated Budget Table</returns>
         // POST: api/Budgets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -106,7 +125,11 @@ namespace Finance_Api.Controllers
 
             return CreatedAtAction("GetBudget", new { id = budget.BudgetId }, budget);
         }
-
+        /// <summary>
+        /// This method Deleted the particular record based on Id
+        /// </summary>
+        /// <param name="id">Budget Id</param>
+        /// <returns>Remaning list of records</returns>
         // DELETE: api/Budgets/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBudget(int id)

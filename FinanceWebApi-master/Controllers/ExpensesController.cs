@@ -21,6 +21,7 @@ namespace Finance_Api.Controllers
         /// This is a constructor to initlizr the readonly property 
         /// </summary>
         /// <param name="context">DBcontext object</param>
+        /// <param name="logger"></param>
         public ExpensesController(FinanceDbContext context, ILogger<ExpensesController> logger)
         {
             _context = context;

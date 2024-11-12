@@ -24,7 +24,7 @@ namespace Finance_Api.Models
         public virtual DbSet<Role> Roles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-       => optionsBuilder.UseSqlServer("Data Source=.\\sqlexpress;Initial Catalog=FinanceManagementSystem;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
+       => optionsBuilder.UseSqlServer("Data Source=PURUSHOTHAM\\SQLEXPRESS;Initial Catalog=Finance;Integrated Security=True;TrustServerCertificate=True");
         public DbSet<Finance_Api.DTO.ExpenseDTO> ExpenseDTO { get; set; } = default!;
     }
 }
