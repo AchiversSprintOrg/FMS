@@ -6,6 +6,7 @@ namespace Finance_Api.Models
     {
         [Key]
         public int UserId { get; set; }
+        [Required]
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
