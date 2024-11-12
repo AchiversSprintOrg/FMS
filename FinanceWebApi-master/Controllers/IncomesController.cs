@@ -18,11 +18,21 @@ namespace Finance_Api.Controllers
         private readonly FinanceDbContext _context;
         private readonly ILogger<ExpensesController> _logger;
 
+        /// <summary>
+        /// This is a constructor to initlize the readonly property 
+        /// </summary>
+        /// <param name="context">DBcontext object</param>
+
         public IncomesController(FinanceDbContext context, ILogger<ExpensesController> logger)
         {
             _context = context;
             _logger = logger;
         }
+
+        /// <summary>
+        /// This method returns the list of Income
+        /// </summary>
+        /// <returns>Income </returns>
 
         // GET: api/Incomes
         [HttpGet]
@@ -32,6 +42,12 @@ namespace Finance_Api.Controllers
             return await _context.Incomes.ToListAsync();
         }
 
+        /// <summary>
+        /// This method returns the Income based on the ID
+        /// </summary>
+        /// <param name="id">Income Id</param>
+        /// <returns>Income based given id</returns>
+        
         // GET: api/Incomes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Income>> GetIncome(int id)
@@ -46,6 +62,13 @@ namespace Finance_Api.Controllers
 
             return income;
         }
+
+        /// <summary>
+        /// Update the Income based on id, Income
+        /// </summary>
+        /// <param name="id">IncomeId</param>
+        /// <param name="income">Income Object</param>
+        /// <returns>Updated list of Income</returns>
 
         // PUT: api/Incomes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -90,6 +113,12 @@ namespace Finance_Api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Create new Record to the Income
+        /// </summary>
+        /// <param name="incomeDTO">IncomeDTO</param>
+        /// <returns>Updated Income Tabel</returns>
+
         // POST: api/Incomes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -112,6 +141,12 @@ namespace Finance_Api.Controllers
             return CreatedAtAction("GetIncome", new { id = income.IncomeId }, income);
         }
 
+        /// <summary>
+        /// This method Deleted the particular record based on Id
+        /// </summary>
+        /// <param name="id">Income Id</param>
+        /// <returns>Remaining list of records</returns>
+        
         // DELETE: api/Incomes/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteIncome(int id)

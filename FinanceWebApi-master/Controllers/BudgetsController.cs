@@ -15,12 +15,22 @@ namespace Finance_Api.Controllers
     public class BudgetsController : ControllerBase
     {
         private readonly FinanceDbContext _context;
-        private readonly ILogger<ExpensesController> _logger;
-        public BudgetsController(FinanceDbContext context, ILogger<ExpensesController> logger)
+        private readonly ILogger<BudgetsController> _logger;
+
+        /// <summary>
+        /// This is a constructor to initialize the readonly property 
+        /// </summary>
+        /// <param name="context">DBcontext object</param>
+        
+        public BudgetsController(FinanceDbContext context, ILogger<BudgetsController> logger)
         {
             _context = context;
             _logger = logger;
         }
+                /// <summary>
+        /// This method returns the list of Budget
+        /// </summary>
+        /// <returns>Budgets </returns>
 
         // GET: api/Budgets
         [HttpGet]
@@ -29,6 +39,12 @@ namespace Finance_Api.Controllers
             _logger.LogInformation("Initiated a Get Action");
             return await _context.Budgets.ToListAsync();
         }
+
+        /// <summary>
+        /// This method returns the Budgets based on the ID
+        /// </summary>
+        /// <param name="id">Budget Id</param>
+        /// <returns>Budget based given id</returns>
 
         // GET: api/Budgets/5
         [HttpGet("{id}")]
@@ -44,6 +60,13 @@ namespace Finance_Api.Controllers
 
             return budget;
         }
+
+        /// <summary>
+        /// Update the Budgets based on id, Budgets
+        /// </summary>
+        /// <param name="id">BudgetId</param>
+        /// <param name="budget">Budget Object</param>
+        /// <returns>Updated list of Budgets</returns>
 
         // PUT: api/Budgets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -88,6 +111,12 @@ namespace Finance_Api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Create new Record to the Budget
+        /// </summary>
+        /// <param name="budgetDTO">BudgetDTo</param>
+        /// <returns>Updated Budget Tabel</returns>
+
         // POST: api/Budgets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -107,6 +136,12 @@ namespace Finance_Api.Controllers
 
             return CreatedAtAction("GetBudget", new { id = budget.BudgetId }, budget);
         }
+
+        /// <summary>
+        /// This method Deleted the particular record based on Id
+        /// </summary>
+        /// <param name="id">Budget Id</param>
+        /// <returns>Remaining list of records</returns>
 
         // DELETE: api/Budgets/5
         [HttpDelete("{id}")]

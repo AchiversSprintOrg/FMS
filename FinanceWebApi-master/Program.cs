@@ -39,6 +39,8 @@ namespace FinanceWebApi
             
             var app = builder.Build();
 
+            app.UseCors("AllowAllOrigins");
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

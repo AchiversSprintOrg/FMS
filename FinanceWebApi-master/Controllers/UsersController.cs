@@ -17,11 +17,21 @@ namespace Finance_Api.Controllers
         private readonly FinanceDbContext _context;
         private readonly ILogger<FinanceDbContext> _logger;
 
+        /// <summary>
+        /// This is a constructor to initlize the readonly property 
+        /// </summary>
+        /// <param name="context">DBcontext object</param>
+
         public UsersController(FinanceDbContext context, ILogger<FinanceDbContext> logger)
         {
             _context = context;
             _logger = logger;
         }
+
+        /// <summary>
+        /// This method returns the list of Users
+        /// </summary>
+        /// <returns>User </returns>
 
         // GET: api/Users
         [HttpGet]
@@ -30,6 +40,13 @@ namespace Finance_Api.Controllers
             _logger.LogInformation("Get Action Initiated");
             return await _context.Users.ToListAsync();
         }
+
+        /// <summary>
+        /// Update the User based on id, Users
+        /// </summary>
+        /// <param name="id">UserId</param>
+        /// <param name="user">Users Object</param>
+        /// <returns>Updated list of Users</returns>
 
         // GET: api/Users/5
         [HttpGet("{id}")]
@@ -46,6 +63,12 @@ namespace Finance_Api.Controllers
 
             return user;
         }
+
+        /// <summary>
+        /// Create new Record to the User
+        /// </summary>
+        /// <param name="userDTO">UserDTO</param>
+        /// <returns>Updated User Tabel</returns>
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -91,6 +114,12 @@ namespace Finance_Api.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// This method Deleted the particular record based on Id
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <returns>Remaining list of records</returns>
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
