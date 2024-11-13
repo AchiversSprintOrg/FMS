@@ -5,10 +5,12 @@ namespace Finance_Api.DTO
     public class IncomeDTO
     {
         [Key]
+        [Required]
         public int IncomeId { get; set; }
         public int UserId { get; set; }
         public string Source { get; set; }
         public decimal Amount { get; set; }
         public DateTime IncomeDate { get; set; }
+        
     }
 }
