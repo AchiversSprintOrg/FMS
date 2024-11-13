@@ -17,5 +17,6 @@ namespace FinanceWebApi.DTO
         public string PasswordHash { get; set; }
         [Required]
         public int RoleId { get; set; }
+       
     }
 }

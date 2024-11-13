@@ -6,17 +6,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Finance_Api.Models;
+using FinanceWebApi.DTO;
+using Microsoft.AspNetCore.Identity;
 
 namespace Finance_Api.Controllers
 {
-
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly FinanceDbContext _context;
         private readonly ILogger<UsersController> _logger;
-
         /// <summary>
         /// This is a constructor to initlize the readonly property 
         /// </summary>
@@ -40,7 +41,6 @@ namespace Finance_Api.Controllers
             _logger.LogInformation("Get the records of User");
             return await _context.Users.ToListAsync();
         }
-
         /// <summary>
         /// This method returns the User based on the ID
         /// </summary>
@@ -54,7 +54,6 @@ namespace Finance_Api.Controllers
             _logger.LogInformation($"Get details based on Id {id}");
 
             var user = await _context.Users.FindAsync(id);
-
             if (user == null)
             {
                 return NotFound();
@@ -62,7 +61,6 @@ namespace Finance_Api.Controllers
 
             return user;
         }
-
         /// <summary>
         /// Update the User based on id, Users
         /// </summary>
@@ -75,12 +73,10 @@ namespace Finance_Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
-            
             if (id != user.UserId)
             {
                 return BadRequest();
             }
-
             _context.Entry(user).State = EntityState.Modified;
 
             try
@@ -102,7 +98,6 @@ namespace Finance_Api.Controllers
 
             return NoContent();
         }
-
         /// <summary>
         /// Create new Record to the User
         /// </summary>
@@ -116,11 +111,11 @@ namespace Finance_Api.Controllers
         {
             _logger.LogInformation("New Record Added into Database");
             _context.Users.Add(user);
+            _logger.LogInformation("Created new record ");
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
-
         /// <summary>
         /// This method Deleted the particular record based on Id
         /// </summary>
@@ -139,6 +134,7 @@ namespace Finance_Api.Controllers
             }
 
             _context.Users.Remove(user);
+            _logger.LogInformation("Deleted record based on Id");
             await _context.SaveChangesAsync();
 
             return NoContent();

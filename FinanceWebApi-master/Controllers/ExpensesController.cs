@@ -61,17 +61,18 @@ namespace Finance_Api.Controllers
 
             return expense;
         }
-
         /// <summary>
         /// Update the Expenses based on id, Expenses
         /// </summary>
         /// <param name="id">ExpenseId</param>
         /// <param name="expenseDTO">ExpenseDTO</param>
         /// <returns>Updated list of Expenses</returns>
-        
+
+
         // PUT: api/Expenses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+       
         public async Task<IActionResult> PutExpense(int id, ExpenseDTO expenseDTO)
         {
 

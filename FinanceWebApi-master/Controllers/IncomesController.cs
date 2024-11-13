@@ -10,6 +10,9 @@ using Finance_Api.DTO;
 
 namespace Finance_Api.Controllers
 {
+    /// <summary>
+    /// Controller to initilize DBContext and Logger
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class IncomesController : ControllerBase
@@ -24,7 +27,7 @@ namespace Finance_Api.Controllers
         /// <param name="logger">ILogger object</param>
 
 
-        public IncomesController(FinanceDbContext context, ILogger<IncomesController> logger)
+       public IncomesController(FinanceDbContext context, ILogger<IncomesController> logger)
         {
             _context = context;
             _logger = logger;
@@ -53,6 +56,7 @@ namespace Finance_Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Income>> GetIncome(int id)
         {
+            var income = await _context.Incomes.FindAsync(id);
             _logger.LogInformation($"Get details based on Id {id}");
             var income = await _context.Incomes.FindAsync(id);
 
@@ -127,7 +131,7 @@ namespace Finance_Api.Controllers
         {
             _logger.LogInformation("New Record Added into Database");
             Income income = new Income()
-            {
+        {
                 IncomeId = incomeDTO.IncomeId,
                 UserId = incomeDTO.UserId,
                 Source = incomeDTO.Source,
@@ -136,6 +140,7 @@ namespace Finance_Api.Controllers
 
             };
             _context.Incomes.Add(income);
+            _logger.LogInformation("Created new Records");
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetIncome", new { id = income.IncomeId }, income);
@@ -159,6 +164,7 @@ namespace Finance_Api.Controllers
             }
 
             _context.Incomes.Remove(income);
+            _logger.LogInformation("Removed the record");
             await _context.SaveChangesAsync();
 
             return NoContent();

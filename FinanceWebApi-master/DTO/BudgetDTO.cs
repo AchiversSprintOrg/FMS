@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FinanceWebApi.DTO
+namespace Finance_Api.DTO
 {
     public class BudgetDTO
     {
@@ -9,6 +9,6 @@ namespace FinanceWebApi.DTO
         public int UserId { get; set; }
         public string Category { get; set; }
         public decimal Amount { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreateDate { get; set; }
     }
 }

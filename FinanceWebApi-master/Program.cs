@@ -36,6 +36,7 @@ namespace FinanceWebApi
                                                  .AllowAnyHeader());
 
             });
+
             
             var app = builder.Build();
 
