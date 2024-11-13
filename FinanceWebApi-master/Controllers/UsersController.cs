@@ -18,9 +18,10 @@ namespace Finance_Api.Controllers
         private readonly ILogger<UsersController> _logger;
 
         /// <summary>
-        /// This is a constructor to initlizr the readonly property 
+        /// This is a constructor to initlize the readonly property 
         /// </summary>
         /// <param name="context">DBcontext object</param>
+        /// <param name="logger">ILogger object</param>
         public UsersController(FinanceDbContext context, ILogger<UsersController> logger)
         {
             _context = context;
@@ -30,13 +31,13 @@ namespace Finance_Api.Controllers
         /// <summary>
         /// This method returns the list of Users
         /// </summary>
-        /// <returns>Users </returns>
+        /// <returns> Users </returns>
 
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            _logger.LogInformation("Initiated a Get by Action");
+            _logger.LogInformation("Get the records of User");
             return await _context.Users.ToListAsync();
         }
 
@@ -50,7 +51,8 @@ namespace Finance_Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            _logger.LogInformation("Initiated a Get by Id Action");
+            _logger.LogInformation($"Get details based on Id {id}");
+
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
@@ -65,15 +67,15 @@ namespace Finance_Api.Controllers
         /// Update the User based on id, Users
         /// </summary>
         /// <param name="id">UserId</param>
-        /// <param name="user">User Object</param>
-        /// <returns>Updated list of Users</returns>
+        /// <param name="userDTO">UserDTO</param>
+        /// <returns>Updated list of Users will be display</returns>
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
-            _logger.LogInformation("Initiated a Put by Id Action");
+            
             if (id != user.UserId)
             {
                 return BadRequest();
@@ -84,6 +86,7 @@ namespace Finance_Api.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                _logger.LogInformation($"Updated User {user.UserId}");
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -103,15 +106,15 @@ namespace Finance_Api.Controllers
         /// <summary>
         /// Create new Record to the User
         /// </summary>
-        /// <param name="userDTO">UserDTo</param>
-        /// <returns>Updated User Tabel</returns>
+        /// <param name="userDTO">UserDTO</param>
+        /// <returns>Updated User Tabel will display</returns>
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            _logger.LogInformation("Initiated a Post by Id Action");
+            _logger.LogInformation("New Record Added into Database");
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -119,16 +122,16 @@ namespace Finance_Api.Controllers
         }
 
         /// <summary>
-        /// This method Deleted the perticular record based on Id
+        /// This method Deleted the particular record based on Id
         /// </summary>
         /// <param name="id">User Id</param>
-        /// <returns>Remaming list of records</returns>
+        /// <returns>Remaming list of the Users will display</returns>
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            _logger.LogInformation("Initiated a Delete by Id Action");
+            _logger.LogInformation("Deleted a record from database through Id Successfully");
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {

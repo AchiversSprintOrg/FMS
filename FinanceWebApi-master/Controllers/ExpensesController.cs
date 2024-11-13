@@ -18,9 +18,10 @@ namespace Finance_Api.Controllers
         private readonly ILogger<ExpensesController> _logger;
 
         /// <summary>
-        /// This is a constructor to initlizr the readonly property 
+        /// This is a constructor to initlize the readonly property 
         /// </summary>
         /// <param name="context">DBcontext object</param>
+        /// <param name="logger">ILogger object</param>
         public ExpensesController(FinanceDbContext context, ILogger<ExpensesController> logger)
         {
             _context = context;
@@ -30,18 +31,18 @@ namespace Finance_Api.Controllers
         /// <summary>
         /// This method returns the list of Expenses
         /// </summary>
-        /// <returns>Expenses </returns>
+        /// <returns> Expenses </returns>
 
         // GET: api/Expenses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses()
         {
-            _logger.LogInformation("Get records of Income");
+            _logger.LogInformation("Get records of Expenses");
             return await _context.Expenses.ToListAsync();
         }
 
         /// <summary>
-        /// This method returns the Expense based on the ID
+        /// This method returns the list of Expense based on the ID
         /// </summary>
         /// <param name="id">Expense Id</param>
         /// <returns>Expense based given id</returns>
@@ -65,7 +66,7 @@ namespace Finance_Api.Controllers
         /// Update the Expenses based on id, Expenses
         /// </summary>
         /// <param name="id">ExpenseId</param>
-        /// <param name="expense">Expense Object</param>
+        /// <param name="expenseDTO">ExpenseDTO</param>
         /// <returns>Updated list of Expenses</returns>
         
         // PUT: api/Expenses/5
@@ -114,7 +115,7 @@ namespace Finance_Api.Controllers
         /// <summary>
         /// Create new Record to the Expense
         /// </summary>
-        /// <param name="expenseDTO">ExpenseDTo</param>
+        /// <param name="expenseDTO">ExpenseDTO</param>
         /// <returns>Updated Expense Tabel</returns>
         
         // POST: api/Expenses
@@ -139,16 +140,16 @@ namespace Finance_Api.Controllers
         }
 
         /// <summary>
-        /// This method Deleted the perticular record based on Id
+        /// This method Deleted the particular record based on Id
         /// </summary>
         /// <param name="id">Expense Id</param>
-        /// <returns>Remaming list of records</returns>
+        /// <returns>Remaming list of the Expenses will be displayed</returns>
         
         // DELETE: api/Expenses/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteExpense(int id)
         {
-            _logger.LogInformation("Data Deleted Successfully from Database");
+            _logger.LogInformation("Deleted a record from database through Id Successfully");
             var expense = await _context.Expenses.FindAsync(id);
             if (expense == null)
             {

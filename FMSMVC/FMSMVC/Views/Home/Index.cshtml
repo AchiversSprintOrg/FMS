@@ -1,0 +1,214 @@
+﻿@*@{
+        ViewBag.Title = "Home Page";
+    }
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Expense API</title>
+    </head>
+    <body>
+        <h1>Expense API - POST and PUT Methods</h1>
+
+        <form id="ExpenseForm">
+            <label for="ExpenseId">Expense ID:</label>
+            <input type="number" id="ExpenseId" name="ExpenseId" required><br><br>
+
+            <label for="UserId">User ID:</label>
+            <input type="number" id="UserId" name="UserId" required><br><br>
+
+            <label for="Category">Category:</label>
+            <input type="text" id="Category" name="Category" required><br><br>
+
+            <label for="Amount">Amount:</label>
+            <input type="text" id="Amount" name="Amount" required><br><br>
+
+            <label for="ExpenseDate">Expense Date:</label>
+            <input type="datetime-local" id="ExpenseDate" name="ExpenseDate" required><br><br>
+
+            <button type="button" onclick="sendRequest('POST')">POST Expenses</button>
+            <button type="button" onclick="sendRequest('PUT')">PUT Expenses</button>
+        </form>
+
+        <script>
+            function sendRequest(method) {
+                const ExpenseId = document.getElementById("ExpenseId").value;
+                const UserId = document.getElementById("UserId").value;
+                const Category = document.getElementById("Category").value;
+                const Amount = document.getElementById("Amount").value;
+                const ExpenseDate = document.getElementById("ExpenseDate").value;
+
+                const data = {
+                    ExpenseId: parseInt(ExpenseId),
+                    UserId: parseInt(UserId),
+                    Category: Category,
+                    Amount: Amount,
+                    ExpenseDate: ExpenseDate
+                };
+
+                const url = 'https://localhost:7141/api/Expenses';
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                };
+
+                fetch(url, options)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert(`Success: ${JSON.stringify(data)}`);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the request:', error);
+                        alert(`Error: ${error.message}`);
+                    });
+            }
+
+        </script>
+    </body>
+    </html>*@
+@{
+        ViewBag.Title = "Home Page";
+    }
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Expense API</title>
+    </head>
+    <body>
+        <h1>Expense API - CRUD Operations</h1>
+
+        <form id="ExpenseForm">
+            <label for="ExpenseId">Expense ID:</label>
+            <input type="number" id="ExpenseId" name="ExpenseId" required><br><br>
+
+            <label for="UserId">User ID:</label>
+            <input type="number" id="UserId" name="UserId" required><br><br>
+
+            <label for="Category">Category:</label>
+            <input type="text" id="Category" name="Category" required><br><br>
+
+            <label for="Amount">Amount:</label>
+            <input type="text" id="Amount" name="Amount" required><br><br>
+
+            <label for="ExpenseDate">Expense Date:</label>
+            <input type="datetime-local" id="ExpenseDate" name="ExpenseDate" required><br><br>
+
+            <button type="button" onclick="sendPostRequest('POST')">POST Expense</button>
+            <button type="button" onclick="sendPutRequest('PUT')">PUT Expense</button>
+        </form>
+
+        <h2>Get or Delete Expense by ID</h2>
+        <label for="getDeleteExpenseId">Expense ID:</label>
+        <input type="number" id="getDeleteExpenseId" required><br><br>
+
+        <button type="button" onclick="getExpenseById()">GET Expense</button>
+        <button type="button" onclick="deleteExpenseById()">DELETE Expense</button>
+
+        <script>
+            const baseUrl = 'https://localhost:7141/api/Expenses';
+
+            function sendPostRequest(method) {
+                const ExpenseId = document.getElementById("ExpenseId").value;
+                const UserId = document.getElementById("UserId").value;
+                const Category = document.getElementById("Category").value;
+                const Amount = document.getElementById("Amount").value;
+                const ExpenseDate = document.getElementById("ExpenseDate").value;
+
+                const data = {
+                    ExpenseId: parseInt(ExpenseId),
+                    UserId: parseInt(UserId),
+                    Category: Category,
+                    Amount: Amount,
+                    ExpenseDate: ExpenseDate
+                };
+
+                fetch(baseUrl, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert(`Success: ${JSON.stringify(data)}`);
+                    })
+                    .catch(error => {
+                        console.error('Request error:', error);
+                        alert(`Error: ${error.message}`);
+                    });
+            }
+            function sendPutRequest() {
+                const ExpenseId = document.getElementById("ExpenseId").value;
+                const data = getExpenseData();
+                fetch(`${baseUrl}/${ExpenseId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error('PUT request failed');
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert(`Expense updated: ${JSON.stringify(data)}`);
+                    })
+                    .catch(error => {
+                        console.error('PUT error:', error);
+                        alert(`Error: ${error.message}`);
+                    });
+            }
+
+            function getExpenseById() {
+                const ExpenseId = document.getElementById("getDeleteExpenseId").value;
+                fetch(`${baseUrl}/${ExpenseId}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert(`Expense: ${JSON.stringify(data)}`);
+                    })
+                    .catch(error => {
+                        console.error('GET request error:', error);
+                        alert(`Error: ${error.message}`);
+                    });
+            }
+
+            function deleteExpenseById() {
+                const ExpenseId = document.getElementById("getDeleteExpenseId").value;
+                fetch(`${baseUrl}/${ExpenseId}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        alert('Expense deleted successfully');
+                    })
+                    .catch(error => {
+                        console.error('DELETE request error:', error);
+                        alert(`Error: ${error.message}`);
+                    });
+            }
+        </script>
+    </body>
+    </html>
+
+

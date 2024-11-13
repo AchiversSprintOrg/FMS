@@ -18,10 +18,11 @@ namespace Finance_Api.Controllers
         private readonly ILogger<ExpensesController> _logger;
 
         /// <summary>
-        /// This is a constructor to initlizr the readonly property 
+        /// This is a constructor to initlize the readonly property 
         /// </summary>
         /// <param name="context">DBcontext object</param>
-        
+        /// <param name="logger">ILogger object</param>
+
         public BudgetsController(FinanceDbContext context, ILogger<ExpensesController> logger)
         {
             _context = context;
@@ -31,7 +32,7 @@ namespace Finance_Api.Controllers
         /// <summary>
         /// This method returns the list of Budgets
         /// </summary>
-        /// <returns>Budgets </returns>
+        /// <returns> Budgets </returns>
 
         // GET: api/Budgets
         [HttpGet]
@@ -45,7 +46,7 @@ namespace Finance_Api.Controllers
         /// This method returns the Budget based on the ID
         /// </summary>
         /// <param name="id">Budget Id</param>
-        /// <returns>Budget based given id</returns>
+        /// <returns>Budget based on given id</returns>
 
         // GET: api/Budgets/5
         [HttpGet("{id}")]
@@ -64,10 +65,10 @@ namespace Finance_Api.Controllers
         }
 
         /// <summary>
-        /// Update the Incomes based on id, Budgets
+        /// Update the Budgets based on id, Budgets
         /// </summary>
         /// <param name="id">BudgetId</param>
-        /// <param name="budget">Budget Object</param>
+        /// <param name="budgetDTO">BudgetDTO</param>
         /// <returns>Updated list of Budgets</returns>
 
         // PUT: api/Budgets/5
@@ -114,7 +115,7 @@ namespace Finance_Api.Controllers
         /// <summary>
         /// Create new Record to the Budget
         /// </summary>
-        /// <param name="budgetDTO">BudgetDTo</param>
+        /// <param name="budgetDTO">BudgetDTO</param>
         /// <returns>Updated Budget Tabel</returns>
 
         // POST: api/Budgets
@@ -137,11 +138,17 @@ namespace Finance_Api.Controllers
             return CreatedAtAction("GetBudget", new { id = budget.BudgetId }, budget);
         }
 
+        /// <summary>
+        /// This method will delete the particular record from Database based on Id
+        /// </summary>
+        /// <param name="id">Budget Id</param>
+        /// <returns>Remaining List of the Budgets will be displayed</returns>
+
         // DELETE: api/Budgets/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBudget(int id)
         {
-            _logger.LogInformation("Data Deleted Successfully from Database");
+            _logger.LogInformation("Deleted a record from database through Id Successfully");
             var budget = await _context.Budgets.FindAsync(id);
             if (budget == null)
             {
