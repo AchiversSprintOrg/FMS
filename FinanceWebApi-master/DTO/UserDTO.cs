@@ -21,5 +21,6 @@ namespace Finance_Api.DTO
 
         [Required]
         public int RoleId { get; set; }
+       
     }
 }

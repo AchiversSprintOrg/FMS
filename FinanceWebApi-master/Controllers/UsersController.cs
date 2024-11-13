@@ -10,6 +10,7 @@ using Finance_Api.DTO;
 
 namespace Finance_Api.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -129,7 +130,7 @@ namespace Finance_Api.Controllers
             _logger.LogInformation("New Record Added into Database");
 
             User user = new User()
-            {
+        {
                 UserId = userDTO.UserId,
                 FirstName = userDTO.FirstName,
                 LastName = userDTO.LastName,
@@ -139,10 +140,16 @@ namespace Finance_Api.Controllers
             };
 
             _context.Users.Add(user);
+            _logger.LogInformation("Created new record ");
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
+        /// <summary>
+        /// Delete the record based on the Id
+        /// </summary>
+        /// <param name="id">UserId</param>
+        /// <returns>Remaining records </returns>
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
@@ -157,6 +164,7 @@ namespace Finance_Api.Controllers
             }
 
             _context.Users.Remove(user);
+            _logger.LogInformation("Deleted record based on Id");
             await _context.SaveChangesAsync();
 
             return NoContent();

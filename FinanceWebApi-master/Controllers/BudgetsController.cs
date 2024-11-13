@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Finance_Api.Models;
 using Finance_Api.DTO;
 
+
 namespace Finance_Api.Controllers
 {
     [Route("api/[controller]")]
@@ -36,7 +37,7 @@ namespace Finance_Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Budget>>> GetBudgets()
         {
-            _logger.LogInformation("Initiated a Get Action");
+            _logger.LogInformation("Get all the records of Budget");
             return await _context.Budgets.ToListAsync();
         }
 
@@ -50,7 +51,7 @@ namespace Finance_Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Budget>> GetBudget(int id)
         {
-            _logger.LogInformation("Initiated a Get by Id Action");
+            _logger.LogInformation($"Get the budget records by Id {id}");
             var budget = await _context.Budgets.FindAsync(id);
 
             if (budget == null)
@@ -71,7 +72,7 @@ namespace Finance_Api.Controllers
         // PUT: api/Budgets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBudget(int id, BudgetDTO budgetDTO)
+        public async Task<IActionResult> PutBudget(int id, BudgetDTO budgetDto)
         {
             _logger.LogInformation("Put Action initiated");
 
@@ -93,8 +94,8 @@ namespace Finance_Api.Controllers
 
             try
             {
+                _logger.LogInformation($"update record based on id {budget.BudgetId}");
                 await _context.SaveChangesAsync();
-                _logger.LogInformation($"Updated Budget {budget.BudgetId}");
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -120,20 +121,17 @@ namespace Finance_Api.Controllers
         // POST: api/Budgets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Budget>> PostBudget(BudgetDTO budgetDTO)
+        public async Task<ActionResult<Budget>> PostBudget(BudgetDTO budgetDto)
         {
-            _logger.LogInformation("New Record Added into Database");
-            Budget budget = new Budget()
-            {
-                BudgetId = budgetDTO.BudgetId,
-                UserId = budgetDTO.UserId,
-                Category = budgetDTO.Category,
-                Amount = budgetDTO.Amount,
-                CreatedDate = budgetDTO.CreatedDate,
-            };
+            Budget budget=new Budget();
+            budget.BudgetId = budgetDto.BudgetId;
+            budget.Amount = budgetDto.Amount;
+            budget.UserId=budgetDto.UserId;
+            budget.Category = budgetDto.Category;
+            budget.CreateDate = budgetDto.CreateDate;
             _context.Budgets.Add(budget);
             await _context.SaveChangesAsync();
-
+            _logger.LogInformation("Created new records");
             return CreatedAtAction("GetBudget", new { id = budget.BudgetId }, budget);
         }
 
@@ -147,13 +145,12 @@ namespace Finance_Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBudget(int id)
         {
-            _logger.LogInformation("Data Deleted Successfully from Database");
             var budget = await _context.Budgets.FindAsync(id);
             if (budget == null)
             {
                 return NotFound();
             }
-
+            _logger.LogInformation($"Deleted record {id}");
             _context.Budgets.Remove(budget);
             await _context.SaveChangesAsync();
 
